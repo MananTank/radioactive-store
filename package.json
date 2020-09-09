@@ -1,14 +1,28 @@
 {
   "name": "radioactive-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "extension of radioactive-state got global state management",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
+  "keywords": [
+    "radioactive-store",
+    "react",
+    "state-management",
+    "reactive",
+    "state",
+    "hooks",
+    "mutable",
+    "immer",
+    "redux"
+  ],
+  "repository": "github:MananTank/radioactive-store",
   "author": "Manan Tank",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.3.0",
     "eslint": "^7.8.1",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
@@ -16,7 +30,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.4.1",
     "react": "^16.13.1"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "react": "^16.13.1"
+  }
 }
