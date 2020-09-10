@@ -1,6 +1,6 @@
 {
   "name": "radioactive-store",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "extension of radioactive-state got global state management",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,7 @@
     "state",
     "hooks",
     "mutable",
-    "immer",
-    "redux"
+    "store"
   ],
   "repository": "github:MananTank/radioactive-store",
   "author": "Manan Tank",
@@ -35,5 +34,6 @@
   },
   "peerDependencies": {
     "react": "^16.13.1"
-  }
+  },
+  "dependencies": {}
 }

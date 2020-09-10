@@ -1,4 +1,6 @@
 import Provider from './utils/Provider'
-import useSlice from './utils/useSlice'
+import useState from './utils/useState'
 
-export { Provider, useSlice }
+export { Provider }
+
+export default useState

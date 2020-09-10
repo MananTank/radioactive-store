@@ -6,9 +6,12 @@ import afterSync from './afterSync'
 // this is because onChange may be called multiple times for a single mutation
 // calling forceUpdate after all the sync code has executed, essentially batches all of them into one
 
-const getOnChange = (store, notify) => {
+const getOnChange = (store) => {
   let chains = []
   const timer = { set: false }
+
+  const notify = (chain) => store.listeners.forEach(l => l(chain))
+
   const onChange = (chain, value, trap) => {
     // if setting an object, make it radioactive
     const rValue =
