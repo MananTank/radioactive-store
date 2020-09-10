@@ -1,8 +1,7 @@
 // run the given function after all the sync code is completed
-// timer is a variable which keeps track of whether the setTimeout is set or not
-// this is useful if you want the fn to be called only once,
-// for that you can check the value of timer.set
-// only call afterSync if timer.set is false
+// timer keeps track of whether the setTimeout is set or not
+// timer is used to make sure that fn is only called once
+// timer.set is used to check whether to call afterSync ot not
 
 const afterSync = (fn, timer) => {
   timer.set = true
