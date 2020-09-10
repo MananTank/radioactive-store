@@ -24,7 +24,7 @@ Dead Simple, Reactive and High Performance State Management for React
 
 <br/>
 
-## ☢ Create a global reactive state
+## ☢ Create A Global State
 
 Your Global State is just an object.
 You Provide this state to your `<App/>` by wrapping the `<App/>` with `<Provider />`
@@ -45,7 +45,7 @@ ReactDOM.render(
 
 
 
-## 🍕 Use a Slice of the global state in components
+## 🍕 Use A Slice Of Global State
 
 Get the "slice" of the of the global state using the `useSlice` hook. Give the name of the "slice" you want from the state
 
@@ -79,32 +79,45 @@ const Todos = () => {
 
 <br/>
 
-### useSlice API
+## 🍕 useSlice API
 
-get slice of state
+<details>
+<summary> get slice of state </summary>
 
 ```js
 const a = useSlice('a') // returns state.a
 ```
+</details>
 
-get deeply nested slice of state
+
+<details>
+<summary> get deeply nested slice of state </summary>
 
 ```js
 const d = useSlice('a.b.c.d') // returns state.a.b.c.d
 ```
+</details>
 
-When you ask for a simple value type data from state, it returns an `obj` instead containing the value in `obj.value`
+
+<details>
+<summary> Value Types are wrapped in Object </summary>
+
+When you ask for a simple value type data from state, it does not return it direcly, but it wraps the value in an object and returns that object, so that you can mutate the value
 
 ```js
-
 /*
-state = {
-  count: 0
-}
+*  state = {
+*    count: 0
+*  }
 */
 
+const count = useSlice('count')
+// returns { value: state.count }
+// why not return state.count, why wrap in in an object ?
 
-const count = useSlice('count') // returns { value: state.count }
+// well, value type data is immutable
+// if count was a number, you would have no way of mutating it
+// but if count is an object, you can mutate it and it will update the global state when you do so
 
 // you can use the state.count like this
 count.value
@@ -114,10 +127,12 @@ count.value++
 count.value = 100
 count.value += 10
 // etc..
-
-// it does not return 0 it returns { value: 0 }
-// why ?
-// well if count is assigned value 0, it can be mutated
-// but now that count === { value: 0} it can be mutated by count.value++ or count.value = 100 etc..
-
 ```
+</details>
+
+
+
+<!--
+<details>
+<summary> </summary>
+</details> -->
