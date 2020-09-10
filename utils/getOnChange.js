@@ -9,7 +9,6 @@ import afterSync from './afterSync'
 const getOnChange = (store) => {
   let chains = []
   const timer = { set: false }
-
   const notify = (chain) => store.listeners.forEach(l => l(chain))
 
   const onChange = (chain, value, trap) => {
@@ -23,7 +22,7 @@ const getOnChange = (store) => {
     const success = silentMutate(store.state, chain, rValue, trap)
 
     // save chain in the batch
-    chains.push(chain[0])
+    chains.push(chain.join('.'))
 
     // when the batching is done, notify listeners with chains
     if (!timer.set) {

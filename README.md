@@ -1,5 +1,5 @@
 <p align='center'>
-  <img src='img/logo.svg' width='250'/>
+  <img src='img/logo.svg' width='300'/>
 </p>
 
 <p align='center'> Dead Simple, Reactive, Blazing Fast Global State Management for React </p>
@@ -28,13 +28,13 @@
 </p>
 
 <!-- Coverage badges ---------------------------------- -->
-<p align='center'>
+<!-- <p align='center'>
   <img src='https://img.shields.io/badge/Stmts-100%25-success' />
   <img src='https://img.shields.io/badge/Branch-100%25-success' />
   <img src='https://img.shields.io/badge/Funcs-100%25-success' />
   <img src='https://img.shields.io/badge/Lines-100%25-success' />
 </p>
-<br/>
+<br/> -->
 
 
 <br/>

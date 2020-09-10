@@ -1,6 +1,6 @@
 {
   "name": "radioactive-store",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "extension of radioactive-state got global state management",
   "main": "index.js",
   "scripts": {

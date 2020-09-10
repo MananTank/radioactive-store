@@ -3,7 +3,7 @@ import RadioActive from './context'
 import { checkDeps } from './validity'
 const inc = x => x + 1
 
-const useState = (deps) => {
+const useGlobalState = (deps) => {
   const [, forceUpdate] = useReducer(inc, 0)
   const { store } = useContext(RadioActive)
 
@@ -21,4 +21,4 @@ const useState = (deps) => {
   return store.state
 }
 
-export default useState
+export default useGlobalState

@@ -1,6 +1,4 @@
 import Provider from './utils/Provider'
-import useState from './utils/useState'
+import useGlobalState from './utils/useGlobalState'
 
-export { Provider }
-
-export default useState
+export { Provider, useGlobalState }
