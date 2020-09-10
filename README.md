@@ -3,7 +3,7 @@ API is subject to change
 
 # radioactive-store
 
- Ultra High Performance Global Reactive State Management Library for React
+Dead Simple, Reactive and High Performance State Management for React
 
 <br/>
 
@@ -30,6 +30,8 @@ Your Global State is just an object.
 You Provide this state to your `<App/>` by wrapping the `<App/>` with `<Provider />`
 
 ```js
+import {Provider} from 'radiactive-store'
+
 const state = {
   todos: []
 };
@@ -47,7 +49,12 @@ ReactDOM.render(
 
 Get the "slice" of the of the global state using the `useSlice` hook. Give the name of the "slice" you want from the state
 
+The slice name you give as an argument also works as dependency, so whenever this slice of the state changes, component is re-rendered automatically. Pretty Cool, right ?
+
+
+<!-- code -->
 ```js
+import {useSlice} from 'radiactive-store'
 
 const Todos = () => {
   const todos = useSlice("todos");
@@ -55,16 +62,22 @@ const Todos = () => {
   // mutate directly to update global state ⚡
   const removeTodo = (i) => todos.splice(i, 1);
   const addTodo = (todo) => todos.push(todo);
-
   ...
 };
-
-export default Todos;
-
 ```
 
 [See Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js:157-662)
 
+
+<!-- gif -->
+<p align='center'>
+  <img src='img/todos.gif'  width='400'/>
+</p>
+
+
+
+
+<br/>
 
 ### useSlice API
 
@@ -89,6 +102,7 @@ state = {
   count: 0
 }
 */
+
 
 const count = useSlice('count') // returns { value: state.count }
 
