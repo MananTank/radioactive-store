@@ -41,13 +41,11 @@
 
 ## Features
 
-⚡ Fastest State Management Library
-
-❌ No Boilerplate
-
 ⚛ Deeply Reactive, Mutate the State directly !
 
-😙 Dead Simple API
+⚡ Fastest State Management Library
+
+😍 Dead Simple API
 
 ♻ No Extra Re-Renders
 
@@ -56,31 +54,35 @@
 
 <br/>
 
+
+## ❤ Simple, Elegant and Powerful
+
+Writing web apps does not have to be a chore
+
+
+<br/>
+
 ## ⚛ Create A Global State
 
 Create a Global State for your app by calling `globalState`. That's it ! 🙌
 
-Example
+**Example**
 
 ```js
-// index.js
-
 import { globalState } from 'radioactive-store'
 
 globalState({
   todos: []
 })
-
-ReactDOM.render(<App />, root);
 ```
 <br/>
 
 
 ## ☢ Using the Global State in Components
 
-Use the `useGS` hook to get the global state
+Use the `useGS` hook to get the entire global state
 
-`useGS` takes a dependency array as argument. It is an array of keys of state that the Component uses to render UI. when any of the dependencies change, Component is re-rendered to reflect the changes in UI
+`useGS` takes a dependency array as argument. It is an array of keys that the Component depends on. when any of the dependencies change, Component is re-rendered.
 
 **Example**
 
@@ -90,9 +92,8 @@ import { useGS } from "radioactive-store";
 const Foo = () => {
   const GS = useGS(['a', 'b.c.d'])
   // GS is the entire global State
-  // whenever GS.a or GS.b.c.d changes, Foo is re-rendered
-
-  return <> ... </>
+  // whenever GS.a or GS.b.c.d is mutated, Foo is re-rendered
+  // ...
 }
 ```
 
@@ -104,18 +105,26 @@ const Foo = () => {
 
 To update the global state, you just mutate it! That's it
 
-**You can also update the state from console and it will automatically update the UI 😍**
+<br/>
 
-### Counter Example
+> ### Because State is Deeply Reactive, You can also mutate state from console and UI will automatically update 😍 🙌
+>
+> You can get the global state using `radioactiveStore.state` in console
+>
+> You can directly mutate the state and UI will react to it
 
-[Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
+<br/>
+
+## Counter Example
+
+[See Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
 <p>
   <img src='img/counter.gif'/>
 </p>
 
 ```jsx
-// index.js
+import { globalState } from 'radioactive-store'
 
 globalState({
   count: 0
@@ -124,7 +133,6 @@ globalState({
 
 
 ```jsx
-// Counter.js
 import { useGS } from "radioactive-store";
 
 const Counter = () => {
@@ -142,7 +150,21 @@ const Counter = () => {
 
 <br/>
 
-**Todos Example**
+## Todos Example
+
+<p align='center'>
+  <img src='img/todos.gif' width='400'>
+</p>
+
+[Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
+
+```jsx
+import { globalState } from 'radioactive-store'
+
+globalState({
+  todos: []
+});
+```
 
 ```jsx
 import { useGS } from "radioactive-store";
@@ -151,21 +173,17 @@ const Todos = () => {
 
   const GS = useGS( ["todos"] );
 
-  // GS is deeply reactive, just mutate the state to update state !
   const removeTodo = i => GS.todos.splice(i, 1);
   const addTodo = todo => GS.todos.push(todo);
 
-  return <> ... </>
+  // ....
 };
 ```
 <br/>
 
 
-[Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
 
-<p align='center'>
-  <img src='img/todos.gif' width='400'>
-</p>
+
 
 
 
