@@ -45,7 +45,7 @@
 
 ❌ No Boilerplate
 
-⚛ Deeply Reactive
+⚛ Deeply Reactive, Mutate the State directly !
 
 😙 Dead Simple API
 
@@ -56,26 +56,119 @@
 
 <br/>
 
-## ☢ Create A Global State
+## ⚛ Create A Global State
 
-Your Global State is just an object.
-You Provide this state to your `<App/>` by wrapping the `<App/>` with `<Provider />`
+Create a Global State for your app by calling `globalState`. That's it ! 🙌
+
+Example
 
 ```js
-import {Provider} from 'radiactive-store'
+// index.js
 
-const state = {
+import { globalState } from 'radiactive-store'
+
+globalState({
   todos: []
-};
+})
 
-ReactDOM.render(
-  <Provider state={state}> <App /> </Provider>,
-  root,
-);
+ReactDOM.render(<App />, root);
 ```
 <br/>
 
 
-## README in progress
+## ☢ Using the Global State in Components
+
+Use the `useGS` hook to get the global state
+
+`useGS` takes a dependency array as argument. It is an array of keys of state that the Component uses to render UI. when any of the dependencies change, Component is re-rendered to reflect the changes in UI
+
+**Example**
+
+```jsx
+import { useGS } from "radioactive-store";
+
+const Foo = () => {
+  const GS = useGS(['a', 'b.c.d'])
+  // GS is the entire global State
+  // whenever GS.a or GS.b.c.d changes, Foo is re-rendered
+
+  return <> ... </>
+}
+```
+
+<br/>
+
+## ⚡ Updating the Global State
+
+`radioactive-store`'s state is deeply reactive.
+
+To update the global state, you just mutate it! That's it
+
+**You can also update the state from console and it will automatically update the UI 😍**
+
+### Counter Example
+
+[Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
+
+<p>
+  <img src='img/counter.gif'/>
+</p>
+
+```jsx
+// index.js
+
+globalState({
+  count: 0
+});
+```
 
 
+```jsx
+// Counter.js
+import { useGS } from "radioactive-store";
+
+const Counter = () => {
+  const GS = useGS(["count"]);
+  const increment = () => GS.count++;
+
+  return (
+    <div className="count" onClick={increment}>
+      {GS.count}
+    </div>
+  );
+};
+```
+
+
+<br/>
+
+**Todos Example**
+
+```jsx
+import { useGS } from "radioactive-store";
+
+const Todos = () => {
+
+  const GS = useGS( ["todos"] );
+
+  // GS is deeply reactive, just mutate the state to update state !
+  const removeTodo = i => GS.todos.splice(i, 1);
+  const addTodo = todo => GS.todos.push(todo);
+
+  return <> ... </>
+};
+```
+<br/>
+
+
+[Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
+
+<p align='center'>
+  <img src='img/todos.gif' width='400'>
+</p>
+
+
+
+
+
+## README in progress !
