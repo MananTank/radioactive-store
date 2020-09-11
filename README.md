@@ -52,13 +52,6 @@
 🍀 Always Fresh State
 
 
-<br/>
-
-
-## ❤ Simple, Elegant and Powerful
-
-Writing web apps does not have to be a chore
-
 
 <br/>
 
@@ -183,10 +176,4 @@ const Todos = () => {
 
 
 
-
-
-
-
-
-
-## README in progress !
+## README is work in progress ...
