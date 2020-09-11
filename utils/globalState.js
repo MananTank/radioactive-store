@@ -1,5 +1,5 @@
 import getRS from './getRS'
-import getOnChange from './getOnChange'
+import { getOnGSChange } from './getOnChange'
 
 // when a component mounts, it subscribes to the store
 // subscribing to store means, adding a listener function to array of listeners in the store
@@ -22,7 +22,7 @@ const globalState = (state) => {
     }
   }
 
-  store.state = getRS(state, getOnChange(store))
+  store.state = getRS(state, getOnGSChange(store))
   window.radioactiveStore = store
 }
 

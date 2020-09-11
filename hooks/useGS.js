@@ -1,11 +1,8 @@
 import { useReducer, useEffect, useRef } from 'react'
-// import RadioActive from './context'
-import { checkDeps } from './validity'
-
-const inc = x => x + 1
+import { checkDeps } from '../utils/validity'
 
 const useGS = (deps) => {
-  const [, forceUpdate] = useReducer(inc, 0)
+  const [, forceUpdate] = useReducer(x => x + 1, 0)
 
   // if running the hook for the first time
   const ref = useRef()

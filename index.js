@@ -1,5 +1,5 @@
-// import Provider from './utils/Provider'
 import globalState from './utils/globalState'
-import useGS from './utils/useGS'
+import useGS from './hooks/useGS'
+import useLS from './hooks/useLS'
 
-export { globalState, useGS }
+export { globalState, useGS, useLS }
