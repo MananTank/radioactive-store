@@ -1,5 +1,6 @@
 import { useReducer, useEffect, useRef } from 'react'
 import { checkDeps } from '../utils/validity'
+import depsUpdated from '../utils/depsUpdated'
 
 const useGS = (deps) => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
@@ -9,11 +10,11 @@ const useGS = (deps) => {
   if (!ref.current) checkDeps(deps)
 
   // subscribe to store
-  useEffect(() => window.radioactiveStore.subscribe(updatedKeys => {
-    if (deps.some(dep => updatedKeys.includes(dep))) {
-      forceUpdate()
-    }
-  }), [deps])
+  useEffect(() =>
+    window.radioactiveStore.subscribe(chains => {
+      if (depsUpdated(deps, chains)) forceUpdate()
+    }),
+  [deps])
 
   return window.radioactiveStore.state
 }
