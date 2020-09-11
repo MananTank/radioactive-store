@@ -65,7 +65,7 @@ Example
 ```js
 // index.js
 
-import { globalState } from 'radiactive-store'
+import { globalState } from 'radioactive-store'
 
 globalState({
   todos: []
