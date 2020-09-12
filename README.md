@@ -57,16 +57,20 @@
 
 ## ⚛ Create A Global State
 
-Create a Global State for your app by calling `globalState`. That's it ! 🙌
+Create a Global State in your main file (index.js) for your app by calling `globalState`, before rendering App. That's it ! 🙌
 
 **Example**
 
 ```js
+// index.js
+
 import { globalState } from 'radioactive-store'
 
 globalState({
   todos: []
 })
+
+ReactDOM.render(<App />, root);
 ```
 <br/>
 
@@ -117,6 +121,7 @@ To update the global state, you just mutate it! That's it
 </p>
 
 ```jsx
+// index.js
 import { globalState } from 'radioactive-store'
 
 globalState({
@@ -126,6 +131,7 @@ globalState({
 
 
 ```jsx
+// Counter.js
 import { useGS } from "radioactive-store";
 
 const Counter = () => {
@@ -152,6 +158,7 @@ const Counter = () => {
 [Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
 
 ```jsx
+// index.js
 import { globalState } from 'radioactive-store'
 
 globalState({
@@ -160,6 +167,7 @@ globalState({
 ```
 
 ```jsx
+// Todos.js
 import { useGS } from "radioactive-store";
 
 const Todos = () => {
@@ -176,4 +184,4 @@ const Todos = () => {
 
 
 
-## README is work in progress ...
+### 🔧🔨 README is a work in progress ...
