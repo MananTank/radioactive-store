@@ -27,11 +27,12 @@ const getOnGSChange = (store) => {
 const getOnLSChange = (ref, forceUpdate) => {
   const timer = { set: false }
 
-  const onChange = (chain, value, trap) => {
+  const onChange = (chain, value, trap, updateNow) => {
     const addingObject = typeof value === 'object' && trap === 'set'
     const rValue = addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(ref.current, chain, rValue, trap)
-    if (!timer.set) afterSync(forceUpdate, timer)
+    if (updateNow) forceUpdate()
+    else if (!timer.set) afterSync(forceUpdate, timer)
     return success
   }
 

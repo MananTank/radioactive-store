@@ -70,7 +70,7 @@ const getRS = (_state, onChange, chain = []) => {
             onChange: e => {
               let value = e.target[key]
               if (propType === 'number') value = Number(value)
-              onChange([...chain, actualProp], value, 'set')
+              onChange([...chain, actualProp], value, 'set', true) // update now, to prevent cursor jumping to end
             }
           }
 
