@@ -9,7 +9,7 @@ import { getOnGSChange } from './getOnChange'
 // a chain is an array that denotes path to a particular slice of state that changed
 // for example: if state.a.b[2] is changed chain is ['a', 'b', '2']
 
-const globalState = (state) => {
+const createGS = (state) => {
   const store = {
     listeners: {},
     subscribe: (listener, deps) => {
@@ -33,4 +33,4 @@ const globalState = (state) => {
   window.radioactiveStore = store
 }
 
-export default globalState
+export default createGS

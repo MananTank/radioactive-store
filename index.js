@@ -1,5 +1,5 @@
-import globalState from './utils/globalState'
+import createGS from './utils/createGS'
 import useGS from './hooks/useGS'
 import useLS from './hooks/useLS'
 
-export { globalState, useGS, useLS }
+export { createGS, useGS, useLS }
