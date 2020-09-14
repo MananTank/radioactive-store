@@ -47,16 +47,24 @@
 
 ## Features
 
-⚛ Deeply Reactive, Mutate the State directly !
+☢ Deeply Reactive, Mutate the State directly !
 
-⚡ Fastest State Management Library !
+⚡ Blazing Fast: Fastest State Management Library !
 
 😍 Dead Simple API
 
-♻ No Extra Re-Renders
+♻ Super Efficient : No Extra Re-Renders
 
 🍀 Always Fresh State
 
+⚛ Reactive Props
+
+✒ Reactive Input Bindings
+
+
+<br />
+
+> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global state management and includes it's `useRS` hook as `useLS` for local state management
 
 
 <br/>
