@@ -71,9 +71,7 @@
 
 ## ⚛ Create Global State with `createGS`
 
-Create a Global State in your main file (index.js) for your app by calling `createGS` with the state object, before rendering App.
-
-That's it ! 🙌
+Create a Global State in your main file of your app  by calling `createGS` with the state object. That's it ! 🙌
 
 **Example**
 
@@ -99,7 +97,7 @@ dependency array is an array of strings that denotes which parts of global state
 #### Example
 
 ```js
-// if the component's UI depends on state.a and state.b.c then use the hook like this:
+// if the component's UI depends on GS.a and GS.b.c then use the hook like this:
 const GS = useGS(['a', 'b.c'])
 ```
 
