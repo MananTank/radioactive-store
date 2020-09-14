@@ -55,7 +55,7 @@
 
 <br/>
 
-## ⚛ Create A Global State
+## ⚛ Create Global State with `createGS`
 
 Create a Global State in your main file (index.js) for your app by calling `createGS` with the state object, before rendering App.
 
@@ -76,24 +76,17 @@ ReactDOM.render(<App />, root);
 <br/>
 
 
-## ☢ Using the Global State in Components
+## ☢ Using the Global State in Component with `useGS` hook
 
-Use the `useGS` hook to get the entire global state
+`useGS` hook returns the entire global state and takes a dependency array as argument.
 
-`useGS` takes a dependency array as argument. It is an array of keys that the Component depends on. when any of the dependencies change, Component is re-rendered.
+dependency array is an array of strings that denotes which parts of global state the component uses to render it's UI. This is important because Component needs to be re-rendered ( UI needs to be updated ) when these parts change in state
 
-**Example**
+#### Example
 
-```jsx
-import { useGS } from "radioactive-store";
-
-const Counter = () => {
-  const GS = useGS(['count'])
-  // when Gs.count is changed by any component,
-  // Counter is re-rendered
-
-  // ...
-}
+```js
+// if the component's UI depends on state.a and state.b.c then use the hook like this:
+const GS = useGS(['a', 'b.c'])
 ```
 
 <br/>
@@ -102,14 +95,12 @@ const Counter = () => {
 
 `radioactive-store`'s state is deeply reactive. To update the state, you just mutate it!
 
-<br/>
 
-> ### global state is also available in window object as `window.GS`,  So You can also mutate state from anywhere even from browser's console and UI will automatically update 😍 🙌
-
+> ### Global State is also available from `window.GS`, So You can also get and mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will automatically re-render. 😍
 
 <br/>
 
-## Counter Example
+## 🧁 Counter Example
 
 [See Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
@@ -146,7 +137,7 @@ const Counter = () => {
 
 <br/>
 
-## Todos Example
+## ✒ Todos Example
 
 <p align='center'>
   <img src='img/todos.gif' width='400'>
