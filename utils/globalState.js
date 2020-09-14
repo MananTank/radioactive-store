@@ -23,6 +23,7 @@ const globalState = (state) => {
   }
 
   store.state = getRS(state, getOnGSChange(store))
+  window.GS = store.state
   window.radioactiveStore = store
 }
 
