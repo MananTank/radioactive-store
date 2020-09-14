@@ -1,3 +1,9 @@
+> This readme file is not ready yet, Project is still in v0.x and API may change. 🔨
+>
+> Your Feedback is very much appreciated 🙏
+
+<br/>
+
 <p align='center'>
   <img src='img/logo.svg' width='300'/>
 </p>
@@ -43,7 +49,7 @@
 
 ⚛ Deeply Reactive, Mutate the State directly !
 
-⚡ Fastest State Management Library
+⚡ Fastest State Management Library !
 
 😍 Dead Simple API
 
@@ -96,7 +102,7 @@ const GS = useGS(['a', 'b.c'])
 `radioactive-store`'s state is deeply reactive. To update the state, you just mutate it!
 
 
-> ### Global State is also available from `window.GS`, So You can also get and mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will automatically re-render. 😍
+> ### Global State is also available from `window.GS`, So You can mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will re-render automatically. 😍
 
 <br/>
 
@@ -170,6 +176,3 @@ const Todos = () => {
 ```
 <br/>
 
-
-
-### 🔧🔨 README is a work in progress ...
