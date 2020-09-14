@@ -7,15 +7,16 @@ const getOnGSChange = (store) => {
   let chains = {}
 
   const updateUI = () => {
-    const _chains = Object.keys(chains)
-    Object.keys(store.listeners).forEach(dep => {
-      const depUpdated = _chains.some(chain => {
-        const _chain = chain.split('.')
-        const _dep = dep.split('.')
-        return _dep.every((d, i) => d === _chain[i])
+    const chainsSplit = Object.keys(chains)
+    const deps = Object.keys(store.listeners)
+    deps.forEach(dep => {
+      const depUpdated = chainsSplit.some(chain => {
+        const chainSplit = chain.split('.')
+        const depSplit = dep.split('.')
+        return depSplit.every((d, i) => d === chainSplit[i])
       })
 
-      if (depUpdated) store.listeners[dep].forEach(l => l(_chains))
+      if (depUpdated) store.listeners[dep].forEach(l => l(chainsSplit))
     })
     chains = {}
   }
