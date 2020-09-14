@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+import getRS from '../../utils/getRS'
 
 test('key __disableOnChange__ returns a function', () => {
   const onChange = () => true

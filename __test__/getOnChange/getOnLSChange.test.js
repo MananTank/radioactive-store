@@ -1,6 +1,6 @@
-import getRS from '../utils/getRS'
-import { getOnLSChange } from '../utils/getOnChange'
-import { wait } from './utils'
+import getRS from '../../utils/getRS'
+import { getOnLSChange } from '../../utils/getOnChange'
+import { wait } from '../utils'
 
 test('BATCHING: multiple subsequent mutations calls forceUpdate only once', async () => {
   const forceUpdate = jest.fn()

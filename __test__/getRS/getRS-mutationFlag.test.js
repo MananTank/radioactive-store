@@ -1,5 +1,5 @@
-import getRS from '../utils/getRS'
-import { getOnLSChange } from '../utils/getOnChange'
+import getRS from '../../utils/getRS'
+import { getOnLSChange } from '../../utils/getOnChange'
 
 test('$ is incremented when state (object) is mutated', () => {
   const RS = { current: null }

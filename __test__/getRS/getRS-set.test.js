@@ -1,4 +1,4 @@
-import getRS from '../utils/getRS'
+import getRS from '../..//utils/getRS'
 
 // -----------------------------------------------
 test('shallow mutations on object', () => {
@@ -6,15 +6,15 @@ test('shallow mutations on object', () => {
 
   const onChange = (chain, value, trap) => {
     expect(chain).toEqual(['a'])
-    expect(value).toEqual(undefined)
-    expect(trap).toEqual('deleteProperty')
+    expect(value).toEqual(100)
+    expect(trap).toEqual('set')
     return true
   }
 
   const radioactive = getRS(obj, onChange)
-  delete radioactive.a
+  radioactive.a = 100
 
-  expect(radioactive).toEqual(obj)
+  expect(radioactive).toEqual(obj) // radioactive and obj are equal
 })
 
 // -----------------------------------------------
@@ -36,14 +36,14 @@ test('deep mutations on object', () => {
 
   const onChange = (chain, value, trap) => {
     expect(chain).toEqual(['a', 'b', 'c', 'd'])
-    expect(value).toEqual(undefined)
-    expect(trap).toEqual('deleteProperty')
+    expect(value).toEqual(100)
+    expect(trap).toEqual('set')
     return true
   }
 
   const radioactive = getRS(obj, onChange)
 
-  delete radioactive.a.b.c.d
+  radioactive.a.b.c.d = 100
   expect(radioactive).toEqual(obj) // radioactive and obj are equal
 })
 
@@ -53,14 +53,14 @@ test('shallow mutations on array', () => {
 
   const onChange = (chain, value, trap) => {
     expect(chain).toEqual(['3'])
-    expect(value).toEqual(undefined)
-    expect(trap).toEqual('deleteProperty')
+    expect(value).toEqual(100)
+    expect(trap).toEqual('set')
     return true
   }
 
   const radioactive = getRS(arr, onChange)
 
-  delete radioactive[3]
+  radioactive[3] = 100
   expect(radioactive).toEqual(arr) // radioactive and obj are equal
 })
 
@@ -70,13 +70,13 @@ test('deep mutations on array', () => {
 
   const onChange = (chain, value, trap) => {
     expect(chain).toEqual(['3', 'a', 'b', 'c', '2'])
-    expect(value).toEqual(undefined)
-    expect(trap).toEqual('deleteProperty')
+    expect(value).toEqual(100)
+    expect(trap).toEqual('set')
     return true
   }
 
   const radioactive = getRS(arr, onChange)
 
-  delete radioactive[3].a.b.c[2]
+  radioactive[3].a.b.c[2] = 100
   expect(radioactive).toEqual(arr) // radioactive and obj are equal
 })
