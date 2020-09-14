@@ -17,9 +17,7 @@ const getOnGSChange = (store) => {
     const success = silentMutate(store.state, chain, rValue, trap)
     if (success) chains.push(chain.join('.'))
     if (updateNow) updateUI() // for input binding
-    if (!timer.set) {
-      afterSync(updateUI, timer)
-    }
+    if (!timer.set) afterSync(updateUI, timer)
     return success
   }
 

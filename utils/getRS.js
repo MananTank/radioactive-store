@@ -48,7 +48,6 @@ const getRS = (_state, onChange, chain = []) => {
 
     get (target, prop) {
       if (prop === '$json') return JSON.stringify(target, null, 2)
-      // isRadioactive API
       if (prop === '__isRadioactive__') return true
 
       // mutation flag API
