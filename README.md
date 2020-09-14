@@ -57,17 +57,18 @@
 
 ## ⚛ Create A Global State
 
-Create a Global State in your main file (index.js) for your app by calling `globalState`, before rendering App. That's it ! 🙌
+Create a Global State in your main file (index.js) for your app by calling `createGS` with the state object, before rendering App.
+
+That's it ! 🙌
 
 **Example**
 
 ```js
 // index.js
+import { createGS } from 'radioactive-store'
 
-import { globalState } from 'radioactive-store'
-
-globalState({
-  todos: []
+createGS({
+  count: 0
 })
 
 ReactDOM.render(<App />, root);
@@ -86,10 +87,11 @@ Use the `useGS` hook to get the entire global state
 ```jsx
 import { useGS } from "radioactive-store";
 
-const Foo = () => {
-  const GS = useGS(['a', 'b.c.d'])
-  // GS is the entire global State
-  // whenever GS.a or GS.b.c.d is mutated, Foo is re-rendered
+const Counter = () => {
+  const GS = useGS(['count'])
+  // when Gs.count is changed by any component,
+  // Counter is re-rendered
+
   // ...
 }
 ```
@@ -98,17 +100,12 @@ const Foo = () => {
 
 ## ⚡ Updating the Global State
 
-`radioactive-store`'s state is deeply reactive.
-
-To update the global state, you just mutate it! That's it
+`radioactive-store`'s state is deeply reactive. To update the state, you just mutate it!
 
 <br/>
 
-> ### Because State is Deeply Reactive, You can also mutate state from console and UI will automatically update 😍 🙌
->
-> You can get the global state using `radioactiveStore.state` in console
->
-> You can directly mutate the state and UI will react to it
+> ### global state is also available in window object as `window.GS`,  So You can also mutate state from anywhere even from browser's console and UI will automatically update 😍 🙌
+
 
 <br/>
 
@@ -116,15 +113,15 @@ To update the global state, you just mutate it! That's it
 
 [See Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
-<p>
+<!-- <p>
   <img src='img/counter.gif'/>
-</p>
+</p> -->
 
 ```jsx
 // index.js
-import { globalState } from 'radioactive-store'
+import { createGS } from 'radioactive-store'
 
-globalState({
+createGS({
   count: 0
 });
 ```
@@ -135,8 +132,8 @@ globalState({
 import { useGS } from "radioactive-store";
 
 const Counter = () => {
-  const GS = useGS(["count"]);
-  const increment = () => GS.count++;
+  const GS = useGS([ "count" ]);
+  const increment = () => GS.count++; // directly mutate GS 🙌
 
   return (
     <div className="count" onClick={increment}>
@@ -159,9 +156,9 @@ const Counter = () => {
 
 ```jsx
 // index.js
-import { globalState } from 'radioactive-store'
+import { createGS } from 'radioactive-store'
 
-globalState({
+createGS({
   todos: []
 });
 ```
@@ -172,7 +169,7 @@ import { useGS } from "radioactive-store";
 
 const Todos = () => {
 
-  const GS = useGS( ["todos"] );
+  const GS = useGS([ "todos" ]);
 
   const removeTodo = i => GS.todos.splice(i, 1);
   const addTodo = todo => GS.todos.push(todo);
