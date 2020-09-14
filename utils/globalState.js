@@ -11,12 +11,18 @@ import { getOnGSChange } from './getOnChange'
 
 const globalState = (state) => {
   const store = {
-    listeners: [],
-    subscribe: listener => {
-      store.listeners.push(listener)
+    listeners: {},
+    subscribe: (listener, deps) => {
+      deps.forEach(dep => {
+        if (!store.listeners[dep]) store.listeners[dep] = []
+        store.listeners[dep].push(listener)
+      })
+
       const unsubscribe = () => {
-        const i = store.listeners.findIndex(l => l === listener)
-        store.listeners.splice(i, 1)
+        deps.forEach(dep => {
+          const i = store.listeners[dep].findIndex(l => l === listener)
+          store.listeners[dep].splice(i, 1)
+        })
       }
       return unsubscribe
     }
