@@ -1,5 +1,11 @@
 import getRS from '../../utils/getRS'
 
+test('key __disableOnChange__ returns a function', () => {
+  const onChange = () => true
+  const RS = getRS({}, onChange)
+  expect(typeof RS.__disableOnChange__).toBe('function')
+})
+
 test('after __disableOnChange__ is called with true, onChange is not called', async () => {
   const onChange = jest.fn(() => true)
   const RS = getRS({ a: 0, b: 0, c: 100, d: 100 }, onChange)

@@ -1,4 +1,4 @@
-import getRS from '../..//utils/getRS'
+import getRS from '../../utils/getRS'
 
 // -----------------------------------------------
 test('shallow mutations on object', () => {
