@@ -2,34 +2,26 @@ import getRS from '../../utils/getRS'
 import { getOnGSChange } from '../../utils/getOnChange'
 import { wait } from '../utils'
 
-test('listeners are called with correct chain for shallow mutations', () => {
-  const l1 = (chain) => {
-    expect(chain).toEqual(['count', 'count'])
-  }
+test('listeners are called as expected', async () => {
+  const l1 = jest.fn()
+  const l2 = jest.fn()
+  const l3 = jest.fn()
 
   const store = {
     state: null,
-    listeners: [l1]
-  }
-
-  store.state = getRS({ count: 0 }, getOnGSChange(store))
-  store.state.count++
-  store.state.count++
-})
-
-test('listeners are called with correct chain for deep mutations', () => {
-  const l1 = (chain) => {
-    expect(chain).toEqual(['a.b.c', 'a.b'])
-  }
-
-  const store = {
-    state: null,
-    listeners: [l1]
+    listeners: {
+      'a.b.c': [l1],
+      'a.b': [l2],
+      a: [l3]
+    }
   }
 
   store.state = getRS({ a: { b: { c: 0 } } }, getOnGSChange(store))
   store.state.a.b.c++
-  store.state.a.b = 100
+  await wait(1000)
+  expect(l1.mock.calls.length).toBe(1)
+  expect(l2.mock.calls.length).toBe(1)
+  expect(l3.mock.calls.length).toBe(1)
 })
 
 test('BATCHING: multiple subsequent mutations calls listeners once', async () => {
@@ -38,7 +30,9 @@ test('BATCHING: multiple subsequent mutations calls listeners once', async () =>
 
   const store = {
     state: null,
-    listeners: [l1, l2]
+    listeners: {
+      count: [l1, l2]
+    }
   }
 
   store.state = getRS({ count: 0 }, getOnGSChange(store))
@@ -48,7 +42,6 @@ test('BATCHING: multiple subsequent mutations calls listeners once', async () =>
   store.state.count++
   store.state.count++
 
-  // wait because listeners are called async-ly
   await wait(1000)
 
   expect(l1.mock.calls.length).toBe(1)
@@ -58,7 +51,7 @@ test('BATCHING: multiple subsequent mutations calls listeners once', async () =>
 test('FRESH STATE: after mutating the state, new state is directly available', () => {
   const store = {
     state: null,
-    listeners: []
+    listeners: {}
   }
 
   store.state = getRS({
