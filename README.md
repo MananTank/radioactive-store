@@ -104,9 +104,9 @@ const GS = useGS(['a', 'b.c'])
 
 [See Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
-<!-- <p>
-  <img src='img/counter.gif'/>
-</p> -->
+<p align='center'>
+  <img src='img/counter.gif' width='600'/>
+</p>
 
 ```jsx
 // index.js
