@@ -28,8 +28,8 @@ const getOnGSChange = (store) => {
     const rValue = addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(store.state, chain, rValue, trap)
     if (success) chains[chain.join('.')] = rValue
-    if (updateNow) updateUI() // for input binding
-    if (!timer.set) afterSync(updateUI, timer)
+    if (updateNow) updateUI()
+    else if (!timer.set) afterSync(updateUI, timer)
     return success
   }
 
