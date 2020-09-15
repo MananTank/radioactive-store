@@ -12,19 +12,29 @@ import { getOnGSChange } from './getOnChange'
 const createGS = (state) => {
   const store = {
     listeners: {},
-    subscribe: (listener, deps) => {
+    subscribe: (deps, listener) => {
       deps.forEach(dep => {
         if (!store.listeners[dep]) store.listeners[dep] = []
         store.listeners[dep].push(listener)
       })
 
-      const unsubscribe = () => {
+      // return a function to unsubscribe from store, to remove the listener
+      return () => {
         deps.forEach(dep => {
           const i = store.listeners[dep].findIndex(l => l === listener)
           store.listeners[dep].splice(i, 1)
         })
       }
-      return unsubscribe
+    },
+
+    // this listeners are to be called when *anything* in state changes
+    onChangeListeners: [],
+    onChange: fn => {
+      store.onChangeListeners.push(fn)
+      return () => {
+        const i = store.onChangeListeners.findIndex(f => f === fn)
+        store.onChangeListeners.split(i, 1)
+      }
     }
   }
 

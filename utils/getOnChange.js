@@ -18,6 +18,8 @@ const getOnGSChange = (store) => {
 
       if (depUpdated) store.listeners[dep].forEach(l => l(chainsSplit))
     })
+
+    store.onChangeListeners.forEach(l => l(chains))
     chains = {}
   }
 
@@ -25,7 +27,7 @@ const getOnGSChange = (store) => {
     const addingObject = typeof value === 'object' && trap === 'set'
     const rValue = addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(store.state, chain, rValue, trap)
-    if (success) chains[chain.join('.')] = true
+    if (success) chains[chain.join('.')] = rValue
     if (updateNow) updateUI() // for input binding
     if (!timer.set) afterSync(updateUI, timer)
     return success
