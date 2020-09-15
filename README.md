@@ -69,7 +69,16 @@
 
 <br/>
 
-## ⚛ Create Global State with `createGS`
+
+## 🛠 Installation
+
+```bash
+npm i radioactive-store
+```
+
+<br/>
+
+## ☢ Create Global State with `createGS`
 
 Create a Global State in your main file of your app  by calling `createGS` with the state object. That's it ! 🙌
 
@@ -88,7 +97,7 @@ ReactDOM.render(<App />, root);
 <br/>
 
 
-## ☢ Using the Global State in Component with `useGS` hook
+## 📂 Using the Global State in Component with `useGS` hook
 
 `useGS` hook returns the entire global state and takes a dependency array as argument.
 
