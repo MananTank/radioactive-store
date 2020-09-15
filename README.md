@@ -64,7 +64,7 @@
 
 <br />
 
-> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global state management and includes it's `useRS` hook as `useLS` for local state management
+> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global. All its features are available in `radioactive-store` as well.
 
 
 <br/>
@@ -78,17 +78,17 @@ npm i radioactive-store
 
 <br/>
 
-## ☢ Create Global State with `createGS`
+## ☢ Create Global State with `createState`
 
-Create a Global State in your main file of your app  by calling `createGS` with the state object. That's it ! 🙌
+You can call `createState` with an object and that object will becomes a reactive global state and will be available in `window.state`
 
 **Example**
 
 ```js
 // index.js
-import { createGS } from 'radioactive-store'
+import { createState } from 'radioactive-store'
 
-createGS({
+createState({
   count: 0
 })
 
@@ -97,43 +97,52 @@ ReactDOM.render(<App />, root);
 <br/>
 
 
-## 📂 Using the Global State in Component with `useGS` hook
+## 📂 Using the Global State in Component
 
-`useGS` hook returns the entire global state and takes a dependency array as argument.
+You can you global state anywhere using `window.state`
 
-dependency array is an array of strings that denotes which parts of global state the component uses to render it's UI. This is important because Component needs to be re-rendered ( UI needs to be updated ) when these parts change in state
+But, When using some part of global state in a Component to render UI, we have to re-render component when that part of state changes. To do that we use `useDeps` to denote the dependency of component
+
+`useDeps` takes a dependency array as argument. This dependency array is an array of strings that denotes which parts of global state the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
 
 #### Example
 
 ```js
-// if the component's UI depends on GS.a and GS.b.c then use the hook like this:
-const GS = useGS(['a', 'b.c'])
+// if the Foo component's UI depends on
+// window.state.a and window.state.b.c then use the hook like this:
+import { useDeps } from 'radioactive-store'
+
+const Foo = () => {
+  useDeps(['a', 'b.c'])
+
+  // ...
+}
 ```
 
 <br/>
 
-## ⚡ Updating the Global State
+## ⚡ Updating Global State
 
-`radioactive-store`'s state is deeply reactive. To update the state, you just mutate it!
+`radioactive-store`'s state ( window.state ) is deeply reactive. To update the state, you just mutate it!
 
 
-> ### Global State is also available from `window.GS`, So You can mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will re-render automatically. 😍
+> ### Since the global state is available in `window.state` You can mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will re-render automatically. 😍
 
 <br/>
 
 ## 🧁 Counter Example
 
-[See Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
+[Open Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
-<p align='center'>
+<!-- <p align='center'>
   <img src='img/counter.gif' width='600'/>
-</p>
+</p> -->
 
 ```jsx
 // index.js
-import { createGS } from 'radioactive-store'
+import { createState } from 'radioactive-store'
 
-createGS({
+createState({
   count: 0
 });
 ```
@@ -141,19 +150,30 @@ createGS({
 
 ```jsx
 // Counter.js
-import { useGS } from "radioactive-store";
+
+/* globals state */
+import { useDeps } from "radioactive-store";
+
+const increment = () => state.count++
+const reset = () => state.count = 0
 
 const Counter = () => {
-  const GS = useGS([ "count" ]);
-  const increment = () => GS.count++; // directly mutate GS 🙌
-
+  useDeps([ "count" ]);
   return (
-    <div className="count" onClick={increment}>
-      {GS.count}
-    </div>
+    <>
+      <div onClick={increment}> {state.count} </div>
+      <div onClick={reset}> Reset </div>
+    </>
   );
 };
 ```
+> since state is available in window,  we can directly use state instead of `window.state`
+>
+> But if you have ESlint setup, it will complain that state is not defined. to fix this either add a comment as shown above or add the state as a global in eslint.config
+
+As you can see, I defined the `increment` and `reset` functions outside of Counter. This is because they do not use any local state of component.
+
+It's always a good idea of define the functions outside of component when possible for better performance, because functions defined inside of components are created every time the component is rendered.
 
 
 <br/>
@@ -164,27 +184,26 @@ const Counter = () => {
   <img src='img/todos.gif' width='400'>
 </p>
 
-[Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
+[Open Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
 
 ```jsx
 // index.js
-import { createGS } from 'radioactive-store'
+import { createState } from 'radioactive-store'
 
-createGS({
+createState({
   todos: []
 });
 ```
 
 ```jsx
 // Todos.js
-import { useGS } from "radioactive-store";
+import { useDeps } from "radioactive-store";
+const {state} = window
 
 const Todos = () => {
-
-  const GS = useGS([ "todos" ]);
-
-  const removeTodo = i => GS.todos.splice(i, 1);
-  const addTodo = todo => GS.todos.push(todo);
+  useDeps([ "todos" ]);
+  const removeTodo = i => state.todos.splice(i, 1);
+  const addTodo = todo => state.todos.push(todo);
 
   // ....
 };
@@ -192,19 +211,50 @@ const Todos = () => {
 <br/>
 
 
-## Creating Actions with `createActions`
+## Creating Global Actions
 
-Actions are basically global functions that mutate the global state
+functions that mutate the global state are called **actions** in `radioactive-store`
 
-In out Counter example we wrote a function to increment the count in global state.
+As we saw in Counter Example, we defined the actions `increment` and `reset` outside of the component. Let's take this a step further and store it in a global object so they can be called from anywhere.
+
+`radioactive-store` does not have any opinions about how and where you store your actions. But here's my recommendation:
+
+I recommend putting related actions in one object and saving them in `window.actions` object. But this is just a suggestion and you don't *have* to do it.
+
+#### Example
 
 ```js
-const increment = () => GS.count++
+// index.js
+
+createState({
+  count: 0
+})
+
+const {state} = window
+
+window.actions = {
+  count: {
+    increment: () => state.count++,
+    reset: () => state.count = 0,
+  }
+}
 ```
 
-We can also write this function outside of component using the window.GS and it will work just fine
+Now we can refactor the Counter Component like to use global actions like this
 
-```js
-const increment = () => window.GS.count++
+```jsx
+// Counter.js
+import { useDeps } from "radioactive-store";
+const { state } = window
+const { increment, reset } = window.actions.count
 
+const Counter = () => {
+  useDeps([ "count" ])
+  return (
+    <>
+      <div onClick={increment}> {state.count} </div>
+      <div onClick={reset}> Reset </div>
+    </>
+  );
+};
 ```
