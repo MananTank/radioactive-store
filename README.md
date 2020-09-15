@@ -150,7 +150,6 @@ createState({
 
 ```jsx
 // Counter.js
-
 /* globals state */
 import { useDeps } from "radioactive-store";
 
@@ -169,52 +168,27 @@ const Counter = () => {
 ```
 > since state is available in window,  we can directly use state instead of `window.state`
 >
-> But if you have ESlint setup, it will complain that state is not defined. to fix this either add a comment as shown above or add the state as a global in eslint.config
+> But if you have ESlint setup, it will complain that state is not defined. to fix this either add a comment `/* globals state */` as shown above or add the state as a global variable in eslint.config
 
-As you can see, I defined the `increment` and `reset` functions outside of Counter. This is because they do not use any local state of component.
-
-It's always a good idea of define the functions outside of component when possible for better performance, because functions defined inside of components are created every time the component is rendered.
+ `increment` and `reset` functions outside of component. It's always a good idea of define the functions outside of component whenever possible for better performance, because functions defined inside of components are created every time the component is rendered.
 
 
 <br/>
 
-## ✒ Todos Example
 
-<p align='center'>
-  <img src='img/todos.gif' width='400'>
-</p>
-
-[Open Live Demo](https://codesandbox.io/s/todos-radioactive-store-x412g?file=/src/Todos.js)
-
-```jsx
-// index.js
-import { createState } from 'radioactive-store'
-
-createState({
-  todos: []
-});
-```
-
-```jsx
-// Todos.js
-import { useDeps } from "radioactive-store";
-const {state} = window
-
-const Todos = () => {
-  useDeps([ "todos" ]);
-  const removeTodo = i => state.todos.splice(i, 1);
-  const addTodo = todo => state.todos.push(todo);
-
-  // ....
-};
-```
-<br/>
+> To be Continued ...
 
 
-## Creating Global Actions
+<!-- ## 🌟 Creating Actions
 
-functions that mutate the global state are called **actions** in `radioactive-store`
+Creating actions is completely optional and radioactive-store does not provide any APIs to do so, however since global state is available in the global object, I th -->
 
+<!-- ### What is an action ?
+
+In other state management libraries an `action` is an object that represents a user action by a string and payload. But In this library I will refer to the functions that actually performs the action as `action`. I think this makes more sense since an action - as the name suggests is something that happens - it's a function.
+
+So, According to this definition, we have already defined various actions such as `increment` and `reset` in the counter example
+`
 As we saw in Counter Example, we defined the actions `increment` and `reset` outside of the component. Let's take this a step further and store it in a global object so they can be called from anywhere.
 
 `radioactive-store` does not have any opinions about how and where you store your actions. But here's my recommendation:
@@ -257,4 +231,4 @@ const Counter = () => {
     </>
   );
 };
-```
+``` -->
