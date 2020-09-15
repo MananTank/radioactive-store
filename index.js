@@ -1,9 +1,7 @@
 // hooks
-import useGS from './hooks/useGS'
-import useLS from './hooks/useLS'
-import useAction from './hooks/useAction'
+import useDeps from './hooks/useDeps'
+import useRS from './hooks/useRS'
 // creators
-import createGS from './utils/createGS'
-import createActions from './utils/createActions'
+import createState from './create/createState'
 
-export { useGS, useLS, useAction, createGS, createActions }
+export { useDeps, useRS, createState }

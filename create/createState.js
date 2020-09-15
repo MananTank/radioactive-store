@@ -1,5 +1,5 @@
-import getRS from './getRS'
-import { getOnGSChange } from './getOnChange'
+import getRS from '../utils/getRS'
+import { getOnGSChange } from '../utils/getOnChange'
 
 // when a component mounts, it subscribes to the store
 // subscribing to store means, adding a listener function to array of listeners in the store
@@ -39,7 +39,7 @@ const createGS = (state) => {
   }
 
   store.state = getRS(state, getOnGSChange(store))
-  window.GS = store.state
+  window.state = store.state
   window.radioactiveStore = store
 }
 

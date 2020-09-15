@@ -3,7 +3,7 @@ import { checkInitialState } from '../utils/validity'
 import { getOnLSChange } from '../utils/getOnChange'
 import getRS from '../utils/getRS'
 
-const useLS = arg => {
+const useRS = arg => {
   const [, forceUpdate] = useReducer(x => x + 1, 0)
   const ref = useRef()
 
@@ -18,4 +18,4 @@ const useLS = arg => {
   return ref.current
 }
 
-export default useLS
+export default useRS

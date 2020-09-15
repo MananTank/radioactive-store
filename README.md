@@ -191,3 +191,20 @@ const Todos = () => {
 ```
 <br/>
 
+
+## Creating Actions with `createActions`
+
+Actions are basically global functions that mutate the global state
+
+In out Counter example we wrote a function to increment the count in global state.
+
+```js
+const increment = () => GS.count++
+```
+
+We can also write this function outside of component using the window.GS and it will work just fine
+
+```js
+const increment = () => window.GS.count++
+
+```
