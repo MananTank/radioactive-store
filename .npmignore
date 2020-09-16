@@ -4,4 +4,3 @@ babel.config.js
 coverage
 __test__
 .vscode
-package-lock.json
