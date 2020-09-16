@@ -64,10 +64,11 @@
 
 <br />
 
-> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global. All its features are available in `radioactive-store` as well.
-
+> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global state management. All its features are available in `radioactive-store` as well.
 
 <br/>
+
+
 
 
 ## 🛠 Installation
@@ -75,12 +76,17 @@
 ```bash
 npm i radioactive-store
 ```
-
 <br/>
+
+
+
+
 
 ## ☢ Create Global State with `createState`
 
-You can call `createState` with an object and that object will becomes a reactive global state and will be available in `window.state`
+You can call `createState` with an object. Doing this, `radioactive-store` will create a reactive global state and attach it to window as `window.state`
+
+Components in App will use `window.state` so its important to create the state before rendering the App
 
 **Example**
 
@@ -88,28 +94,36 @@ You can call `createState` with an object and that object will becomes a reactiv
 // index.js
 import { createState } from 'radioactive-store'
 
+// after doing this global state is available as window.state
 createState({
   count: 0
 })
 
+// after creating global state, render App
 ReactDOM.render(<App />, root);
 ```
 <br/>
+
+
+
+
 
 
 ## 📂 Using the Global State in Component
 
 You can you global state anywhere using `window.state`
 
-But, When using some part of global state in a Component to render UI, we have to re-render component when that part of state changes. To do that we use `useDeps` to denote the dependency of component
+When using some part of `window.state` in a component to render UI, we have to re-render component when that part of state changes. To do that we use `useDeps` to create a dependency
 
-`useDeps` takes a dependency array as argument. This dependency array is an array of strings that denotes which parts of global state the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
+`useDeps` takes a dependency array as argument. It is an array of strings that denotes which parts of `window.state` the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
 
 #### Example
 
 ```js
-// if the Foo component's UI depends on
-// window.state.a and window.state.b.c then use the hook like this:
+// Assume that Foo is a component and it's UI depends on
+// window.state.a and window.state.b.c
+// then use the useDeps hook like this:
+
 import { useDeps } from 'radioactive-store'
 
 const Foo = () => {
@@ -119,7 +133,13 @@ const Foo = () => {
 }
 ```
 
+By defining a dependency array, we are subscribing to store's state and when `window.state.a` or `window.state.b.c` changes by any component or code, `<Foo/>` will be re-rendered to update it's UI
+
 <br/>
+
+
+
+
 
 ## ⚡ Updating Global State
 
@@ -150,9 +170,9 @@ createState({
 
 ```jsx
 // Counter.js
-/* globals state */
 import { useDeps } from "radioactive-store";
 
+// these functions can also be defined inside the component
 const increment = () => state.count++
 const reset = () => state.count = 0
 
@@ -166,11 +186,13 @@ const Counter = () => {
   );
 };
 ```
-> since state is available in window,  we can directly use state instead of `window.state`
+> Since state is available in window, We can directly use global state as `state` instead of `window.state`
 >
-> But if you have ESlint setup, it will complain that state is not defined. to fix this either add a comment `/* globals state */` as shown above or add the state as a global variable in eslint.config
+> But if you have ESlint setup, linter will complain that `state` is not defined. To fix this, add the `state` as a global variable in `eslint.config`
 
- `increment` and `reset` functions outside of component. It's always a good idea of define the functions outside of component whenever possible for better performance, because functions defined inside of components are created every time the component is rendered.
+ `increment` and `reset` functions are defined outside of component. It's always a good idea of define the functions outside of component whenever possible for better performance, because functions defined inside of components are created every time the component is rendered.
+
+We can also put these functions in a separate file and re-use the same function in multiple components
 
 
 <br/>
