@@ -1,7 +1,5 @@
-// hooks
-import useDeps from './hooks/useDeps'
+import $ from './hooks/$'
 import useRS from './hooks/useRS'
-// creators
-import createState from './create/createState'
+import createState from './utils/createState'
 
-export { useDeps, useRS, createState }
+export { $, useRS, createState }

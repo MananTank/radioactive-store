@@ -19,7 +19,6 @@ const getOnGSChange = (store) => {
       if (depUpdated) store.listeners[dep].forEach(l => l(chainsSplit))
     })
 
-    store.onChangeListeners.forEach(l => l(chains))
     chains = {}
   }
 
