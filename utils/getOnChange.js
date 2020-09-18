@@ -4,29 +4,18 @@ import afterSync from './afterSync'
 
 const getOnGSChange = (store) => {
   const timer = { set: false }
-  let chains = {}
+  let chains = []
 
   const updateUI = () => {
-    const chainsSplit = Object.keys(chains)
-    const deps = Object.keys(store.listeners)
-    deps.forEach(dep => {
-      const depUpdated = chainsSplit.some(chain => {
-        const chainSplit = chain.split('.')
-        const depSplit = dep.split('.')
-        return depSplit.every((d, i) => d === chainSplit[i])
-      })
-
-      if (depUpdated) store.listeners[dep].forEach(l => l(chainsSplit))
-    })
-
-    chains = {}
+    store.listeners.forEach(l => l(chains))
+    chains = []
   }
 
   const onChange = (chain, value, trap, updateNow) => {
     const addingObject = typeof value === 'object' && trap === 'set'
     const rValue = addingObject ? getRS(value, onChange, chain) : value
     const success = silentMutate(store.state, chain, rValue, trap)
-    if (success) chains[chain.join('.')] = rValue
+    if (success) chains.push(chain)
     if (updateNow) updateUI()
     else if (!timer.set) afterSync(updateUI, timer)
     return success

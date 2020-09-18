@@ -113,27 +113,23 @@ ReactDOM.render(<App />, root);
 
 You can you global state anywhere using `window.state`
 
-When using some part of `window.state` in a component to render UI, we have to re-render component when that part of state changes. To do that we use `useDeps` to create a dependency
+When using some part of `window.state` in a component to render UI, we have to re-render component when that part of state changes. To do that we use `$` hook to create a dependency
 
-`useDeps` takes a dependency array as argument. It is an array of strings that denotes which parts of `window.state` the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
+`$` function takes one or more strings that represents  parts of `window.state` the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
 
 #### Example
 
 ```js
-// Assume that Foo is a component and it's UI depends on
-// window.state.a and window.state.b.c
-// then use the useDeps hook like this:
+// if Foo's UI depends on window.state.a and window.state.b.c
+// declare this dependency using $ like this
 
-import { useDeps } from 'radioactive-store'
+import { $ } from 'radioactive-store'
 
 const Foo = () => {
-  useDeps(['a', 'b.c'])
-
-  // ...
+  $('a', 'b.c')
+  ...
 }
 ```
-
-By defining a dependency array, we are subscribing to store's state and when `window.state.a` or `window.state.b.c` changes by any component or code, `<Foo/>` will be re-rendered to update it's UI
 
 <br/>
 
@@ -143,10 +139,10 @@ By defining a dependency array, we are subscribing to store's state and when `wi
 
 ## ⚡ Updating Global State
 
-`radioactive-store`'s state ( window.state ) is deeply reactive. To update the state, you just mutate it!
+`radioactive-store`'s state is deeply reactive and is available anywhere in code as `window.state`. To update the state, you just directly mutate `window.state` and components that needs to re-render will re-render automatically
 
 
-> ### Since the global state is available in `window.state` You can mutate the global state from anywhere in the code and even from browser's console and components that needs to be re-rendered will re-render automatically. 😍
+> ### You can mutate `window.state` not only from components but any piece of code and even from browser's console and after doing so, components that needs to be re-rendered will re-render automatically. 😍
 
 <br/>
 
@@ -170,14 +166,13 @@ createState({
 
 ```jsx
 // Counter.js
-import { useDeps } from "radioactive-store";
+import { $ } from "radioactive-store";
 
-// these functions can also be defined inside the component
-const increment = () => state.count++
-const reset = () => state.count = 0
+const increment = () => window.state.count++
+const reset = () => window.state.count = 0
 
 const Counter = () => {
-  useDeps([ "count" ]);
+  $('count');
   return (
     <>
       <div onClick={increment}> {state.count} </div>
