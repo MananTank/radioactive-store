@@ -55,20 +55,9 @@
 
 ♻ Super Efficient : No Extra Re-Renders
 
-🍀 Always Fresh State
-
-⚛ Reactive Props
-
-✒ Reactive Input Bindings
-
+#### \+  All the features of [radioactive-state](https://github.com/MananTank/radioactive-state)
 
 <br />
-
-> ### This library is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state) for global state management. All its features are available in `radioactive-store` as well.
-
-<br/>
-
-
 
 
 ## 🛠 Installation
@@ -79,27 +68,29 @@ npm i radioactive-store
 <br/>
 
 
+### `radioactive-state` vs `radioactive-store`
+ `radioactive-store` is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state). It contains `radioactive-state`'s `useRS` hook for local state management, as well as `$` and `createState`  for global state management.
+
+
+<br/>
 
 
 
-## ☢ Create Global State with `createState`
+## ☢ Create global state with `createState`
 
-You can call `createState` with an object. Doing this, `radioactive-store` will create a reactive global state and attach it to window as `window.state`
+ create a reactive global state and attach it to window as `window.state` by calling `createState`
 
-Components in App will use `window.state` so its important to create the state before rendering the App
+Components will then be able to use the global state via `window.state` so its important to create the global state before rendering the App
 
 **Example**
 
 ```js
-// index.js
 import { createState } from 'radioactive-store'
 
-// after doing this global state is available as window.state
 createState({
   count: 0
 })
 
-// after creating global state, render App
 ReactDOM.render(<App />, root);
 ```
 <br/>
@@ -107,42 +98,43 @@ ReactDOM.render(<App />, root);
 
 
 
+## 📂 Using the global state in components
 
+global state of app is available not only to component but anywhere as `window.state`
 
-## 📂 Using the Global State in Component
+When a component uses **some part** of `window.state` in a component to render UI, we have to re-render that component when **that part** of state changes. To do that we use a `$` function to **create a dependency**
 
-You can you global state anywhere using `window.state`
-
-When using some part of `window.state` in a component to render UI, we have to re-render component when that part of state changes. To do that we use `$` hook to create a dependency
-
-`$` function takes one or more strings that represents  parts of `window.state` the component depends on to render it's UI. This is used to re-render Component when any of these parts changes
+`$` function takes one or more strings that represents  parts of `window.state` the component depends on to render it's UI. This is used to re-render the component when any of these parts changes
 
 #### Example
 
-```js
-// if Foo's UI depends on window.state.a and window.state.b.c
-// declare this dependency using $ like this
+if `Foo` component's UI depends on `window.state.a` and `window.state.b.c`, declare this dependency using `$` like this:
 
+```js
 import { $ } from 'radioactive-store'
 
 const Foo = () => {
   $('a', 'b.c')
-  ...
+
+  return <>
+    <div> {window.state.a} </div>
+    <div> {window.state.b.c} </div>
+  </>
 }
 ```
+<br/>
+
+Note that you only need to include the parts in dependency which the UI ( `jsx` ) depends on not the component as a whole. for example if Foo uses `window.state.x.y` but does not use them in jsx, then they do not need to be included in dependency
 
 <br/>
 
 
+## ⚡ Updating global state
+
+`radioactive-store`'s state is deeply reactive and is available anywhere in code as `window.state`. To update the global state, you just directly mutate `window.state` and components that needs to re-render will re-render automatically
 
 
-
-## ⚡ Updating Global State
-
-`radioactive-store`'s state is deeply reactive and is available anywhere in code as `window.state`. To update the state, you just directly mutate `window.state` and components that needs to re-render will re-render automatically
-
-
-> ### You can mutate `window.state` not only from components but any piece of code and even from browser's console and after doing so, components that needs to be re-rendered will re-render automatically. 😍
+> ### You can mutate `window.state` not only from components but from any piece of code and even from browser's console !
 
 <br/>
 
@@ -169,25 +161,48 @@ createState({
 import { $ } from "radioactive-store";
 
 const increment = () => window.state.count++
-const reset = () => window.state.count = 0
 
 const Counter = () => {
   $('count');
-  return (
-    <>
-      <div onClick={increment}> {state.count} </div>
-      <div onClick={reset}> Reset </div>
-    </>
-  );
+  return <div onClick={increment}> {state.count} </div>
 };
 ```
-> Since state is available in window, We can directly use global state as `state` instead of `window.state`
->
-> But if you have ESlint setup, linter will complain that `state` is not defined. To fix this, add the `state` as a global variable in `eslint.config`
 
- `increment` and `reset` functions are defined outside of component. It's always a good idea of define the functions outside of component whenever possible for better performance, because functions defined inside of components are created every time the component is rendered.
+ as the `increment` mutates global state, it can be defined outside of Counter component. It's always better to define the functions outside of component whenever possible for better performance, because functions defined inside of components are re-created every time the component is rendered.
 
-We can also put these functions in a separate file and re-use the same function in multiple components
+
+### 👨‍🎤 Global Actions
+
+I call functions that mutate the `window.state` **actions**
+. We can store functions like these in the global object window, so that it could be used by any component.
+
+### Example
+
+ ```js
+// index.js
+
+createState({
+  count: 0
+})
+
+window.actions = {
+  incrementCount : () => window.state.count++,
+  resetCount: () => window.state.count = 0
+}
+
+ReactDOM.render(<App/>, root)
+ ```
+
+ And then any component can use these actions like this
+
+ ```jsx
+const Counter = () => {
+  const handleClick = window.actions.incrementCount
+  return <> ... </>
+}
+ ```
+
+
 
 
 <br/>
@@ -195,57 +210,3 @@ We can also put these functions in a separate file and re-use the same function 
 
 > To be Continued ...
 
-
-<!-- ## 🌟 Creating Actions
-
-Creating actions is completely optional and radioactive-store does not provide any APIs to do so, however since global state is available in the global object, I th -->
-
-<!-- ### What is an action ?
-
-In other state management libraries an `action` is an object that represents a user action by a string and payload. But In this library I will refer to the functions that actually performs the action as `action`. I think this makes more sense since an action - as the name suggests is something that happens - it's a function.
-
-So, According to this definition, we have already defined various actions such as `increment` and `reset` in the counter example
-`
-As we saw in Counter Example, we defined the actions `increment` and `reset` outside of the component. Let's take this a step further and store it in a global object so they can be called from anywhere.
-
-`radioactive-store` does not have any opinions about how and where you store your actions. But here's my recommendation:
-
-I recommend putting related actions in one object and saving them in `window.actions` object. But this is just a suggestion and you don't *have* to do it.
-
-#### Example
-
-```js
-// index.js
-
-createState({
-  count: 0
-})
-
-const {state} = window
-
-window.actions = {
-  count: {
-    increment: () => state.count++,
-    reset: () => state.count = 0,
-  }
-}
-```
-
-Now we can refactor the Counter Component like to use global actions like this
-
-```jsx
-// Counter.js
-import { useDeps } from "radioactive-store";
-const { state } = window
-const { increment, reset } = window.actions.count
-
-const Counter = () => {
-  useDeps([ "count" ])
-  return (
-    <>
-      <div onClick={increment}> {state.count} </div>
-      <div onClick={reset}> Reset </div>
-    </>
-  );
-};
-``` -->
