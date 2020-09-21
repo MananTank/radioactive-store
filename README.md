@@ -1,6 +1,7 @@
-> This readme file is not ready yet, Project is still in v0.x and API may change. 🔨
+> This Library is still in v0.x and API may change.
 >
-> Your Feedback is very much appreciated 🙏
+> README is incomplete 🔨
+
 
 <br/>
 
@@ -68,8 +69,8 @@ npm i radioactive-store
 <br/>
 
 
-### `radioactive-state` vs `radioactive-store`
- `radioactive-store` is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state). It contains `radioactive-state`'s `useRS` hook for local state management, as well as `$` and `createState`  for global state management.
+### 🧾 Note
+ `radioactive-store` is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state). **radioactive-state** is a powerful API that aims to replace `useState` hook, while **radioactive-store** aims to provide both local and global state management. It contains **radioactive-state**'s `useRS` hook for local state management, as well as other APIs for global state management
 
 
 <br/>
@@ -173,10 +174,18 @@ const Counter = () => {
 
 ### 👨‍🎤 Global Actions
 
-I call functions that mutate the `window.state` **actions**
-. We can store functions like these in the global object window, so that it could be used by any component.
+creating actions is completely optional and you shouldn't create actions until it's necessary.
 
-### Example
+In radioactive-store, an action is a function that mutates the `window.state`. So from our previous example, `increment` is an action
+
+
+In our previous counter example, I defined the `increment` function (action) in Counter.js but if increment needs to be used in other components, we should store this action globally in window object so that it is globally available just like window.state
+
+radioactive-store does not have any opinions about how you do this, So you can do this however you like.
+
+#### For example, I like to do this:
+
+I like to save actions in `window.actions` and put similar actions together in an object for example `window.state.count` related actions stored in `window.actions.count` object:
 
  ```js
 // index.js
@@ -186,18 +195,20 @@ createState({
 })
 
 window.actions = {
-  incrementCount : () => window.state.count++,
-  resetCount: () => window.state.count = 0
+  count: {
+    increment: () => window.state.count++,
+    set: value => window.state.count = value,
+    reset: () => window.state.count = 0
+  }
 }
 
 ReactDOM.render(<App/>, root)
  ```
-
- And then any component can use these actions like this
+And then any component can use these actions like this
 
  ```jsx
 const Counter = () => {
-  const handleClick = window.actions.incrementCount
+  const {increment} = window.actions.count
   return <> ... </>
 }
  ```
@@ -209,4 +220,6 @@ const Counter = () => {
 
 
 > To be Continued ...
+
+> I am currently working on README ...
 
