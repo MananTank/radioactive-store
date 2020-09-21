@@ -174,14 +174,13 @@ const Counter = () => {
 
 ### 👨‍🎤 Global Actions
 
-creating actions is completely optional and you shouldn't create actions until it's necessary.
+In `radioactive-store`, an action is a function that mutates the `window.state`. So from our previous example, `increment` is an action.
 
-In radioactive-store, an action is a function that mutates the `window.state`. So from our previous example, `increment` is an action
+In our previous counter example, I defined the `increment` function (action) in Counter.js but if `increment` needs to be used in other components, we should store this action globally in `window` object so that it is globally available just like `window.state`
 
+> Saving actions globally is completely optional and you shouldn't do it until it's necessary.
 
-In our previous counter example, I defined the `increment` function (action) in Counter.js but if increment needs to be used in other components, we should store this action globally in window object so that it is globally available just like window.state
-
-radioactive-store does not have any opinions about how you do this, So you can do this however you like.
+`radioactive-store` does not have any opinions about how you do this, So you can do this however you like.
 
 #### For example, I like to do this:
 
