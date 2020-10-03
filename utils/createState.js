@@ -5,9 +5,8 @@ const createState = (state) => {
   const store = {
     listeners: [],
     subscribe: (cb) => {
-      const { listeners } = store
-      listeners.push(cb)
-      return () => listeners.splice(listeners.findIndex(l => l === cb), 1)
+      store.listeners.push(cb)
+      return () => store.listeners.splice(store.listeners.findIndex(l => l === cb), 1)
     }
   }
 
