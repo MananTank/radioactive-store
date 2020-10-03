@@ -69,19 +69,9 @@ npm i radioactive-store
 <br/>
 
 
-### 🧾 Note
- `radioactive-store` is a superset of [radioactive-state](https://github.com/MananTank/radioactive-state). **radioactive-state** is a powerful API that aims to replace `useState` hook, while **radioactive-store** aims to provide both local and global state management. It contains **radioactive-state**'s `useRS` hook for local state management, as well as other APIs for global state management
+## ☢ Creating global state with `createState`
 
-
-<br/>
-
-
-
-## ☢ Create global state with `createState`
-
- create a reactive global state and attach it to window as `window.state` by calling `createState`
-
-Components will then be able to use the global state via `window.state` so its important to create the global state before rendering the App
+Call the `createState` function with the state object and a reactive global state will be created. This global state is attached to window object as `window.state`
 
 **Example**
 
@@ -89,7 +79,11 @@ Components will then be able to use the global state via `window.state` so its i
 import { createState } from 'radioactive-store'
 
 createState({
-  count: 0
+  foo: 'lorem ipsum',
+  bar: {
+    baz: [1,2,3]
+  },
+  buzz: 10,
 })
 
 ReactDOM.render(<App />, root);
@@ -101,41 +95,43 @@ ReactDOM.render(<App />, root);
 
 ## 📂 Using the global state in components
 
-global state of app is available not only to component but anywhere as `window.state`
+Global state of app is as `window.state`
 
-When a component uses **some part** of `window.state` in a component to render UI, we have to re-render that component when **that part** of state changes. To do that we use a `$` function to **create a dependency**
+When a component uses **some part** of `window.state` in a component to render UI, we have to re-render that component when **that part** of state changes. To do that we create a dependency using the `$` function.
 
-`$` function takes one or more strings that represents  parts of `window.state` the component depends on to render it's UI. This is used to re-render the component when any of these parts changes
+`$` function is called with **one or more strings** that represents  parts of `window.state` the component depends on to render it's UI. This is used to re-render the component when any of these parts changes
 
 #### Example
 
-if `Foo` component's UI depends on `window.state.a` and `window.state.b.c`, declare this dependency using `$` like this:
+if `Foo` component's UI depends on `window.state.foo` and `window.state.bar.baz`, declare these dependencies using `$` like this:
 
 ```js
 import { $ } from 'radioactive-store'
 
 const Foo = () => {
-  $('a', 'b.c')
+  $('foo', 'bar.baz')
 
-  return <>
-    <div> {window.state.a} </div>
-    <div> {window.state.b.c} </div>
-  </>
+  return (
+    <>
+      <div> {window.state.foo} </div>
+      <div> {window.state.bar.baz} </div>
+    </>
+  )
 }
 ```
 <br/>
 
-Note that you only need to include the parts in dependency which the UI ( `jsx` ) depends on not the component as a whole. for example if Foo uses `window.state.x.y` but does not use them in jsx, then they do not need to be included in dependency
+> Note that you only need to include the parts of state in dependency which the UI ( `jsx` ) depends on not the component as a whole. for example if Foo uses `window.state.buzz` but does not use them in jsx, then it does not need to be included in dependency
 
 <br/>
 
 
 ## ⚡ Updating global state
 
-`radioactive-store`'s state is deeply reactive and is available anywhere in code as `window.state`. To update the global state, you just directly mutate `window.state` and components that needs to re-render will re-render automatically
+`radioactive-store`'s state is deeply reactive. To update the global state, you just directly mutate `window.state` and **components that needs to re-render will re-render automatically**
 
 
-> ### You can mutate `window.state` not only from components but from any piece of code and even from browser's console !
+>  You can mutate `window.state` not only from components but from any piece of code and even from browser's console !
 
 <br/>
 
