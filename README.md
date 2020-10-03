@@ -103,7 +103,7 @@ When a component uses **some part** of `window.state` in a component to render U
 
 #### Example
 
-if `Foo` component's UI depends on `window.state.foo` and `window.state.bar.baz`, declare these dependencies using `$` like this:
+if `Foo` component's `jsx` uses `window.state.foo` and `window.state.bar.baz`, declare these dependencies using `$` like this:
 
 ```js
 import { $ } from 'radioactive-store'
@@ -121,10 +121,6 @@ const Foo = () => {
 ```
 <br/>
 
-> Note that you only need to include the parts of state in dependency which the UI ( `jsx` ) depends on not the component as a whole. for example if Foo uses `window.state.buzz` but does not use them in jsx, then it does not need to be included in dependency
-
-<br/>
-
 
 ## ⚡ Updating global state
 
@@ -139,9 +135,9 @@ const Foo = () => {
 
 [Open Live Demo](https://codesandbox.io/s/counter-example-radioactive-store-1yly9?file=/src/Counter.js)
 
-<!-- <p align='center'>
+<p align='center'>
   <img src='img/counter.gif' width='600'/>
-</p> -->
+</p>
 
 ```jsx
 // index.js
@@ -165,7 +161,13 @@ const Counter = () => {
 };
 ```
 
- as the `increment` mutates global state, it can be defined outside of Counter component. It's always better to define the functions outside of component whenever possible for better performance, because functions defined inside of components are re-created every time the component is rendered.
+`increment` is defined outside of Counter component as it is independent from component and mutates the global state, but you can also define it inside of the component if you wish.
+
+It's always better to define the functions outside of component whenever possible for better performance, because functions defined inside of components are re-created every time the component is rendered.
+
+You can also store the function in window object, so that it also becomes global and other component can use it as well.
+
+---
 
 
 ### 👨‍🎤 Global Actions
@@ -214,7 +216,5 @@ const Counter = () => {
 <br/>
 
 
-> To be Continued ...
-
-> I am currently working on README ...
+> README IS WORK IN PROGRESS
 
